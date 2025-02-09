@@ -1,0 +1,23 @@
+name: Events Demo 1
+on: #... #Event1 can be controlled based on spedific branch. SO user have more control insted of regular [pull, event2]
+  pull_request: #Actvities can be provided as configuration. official documentation is required to be seen.
+    types: [opened, edited] #This is only run when pull request is opeaned and edited for mutiple items the the defined sysntax
+    #types: #can also be defined lije below as list for single items
+    #  - opened
+  workflow_dispatch: #Event2 should be in the same line as Event1. even though they do not have any configuration
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output event data
+        run: echo "${{ toJSON(github.event) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+      - name: Build code
+        run: npm run build
+      - name: Deploy project
+        run: echo "Deploying..."
