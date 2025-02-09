@@ -4,7 +4,18 @@ on: #... #Event1 can be controlled based on spedific branch. SO user have more c
     types: [opened, edited] #This is only run when pull request is opeaned and edited for mutiple items the the defined sysntax
     #types: #can also be defined lije below as list for single items
     #  - opened
+    #branches: #it can be added here aswell accrding to documentation. If all branches have to be applie. And only certain has to be not pplied. Here it has to be removed
   workflow_dispatch: #Event2 should be in the same line as Event1. even though they do not have any configuration
+  push:
+    branches: #if trigger has to be based on particular branch when push is mage the following keyword(branches) has to be used
+      -  master #only master, main
+      - 'dev-*' #dev-new dev-this-is-new #regex to say dev- followed by any other characters
+      - 'feat/**' #feat/new feat/new/button  #** indicates more / can be expected **. Single indicates only certain / can be expected
+      #if branches are not specified will that be applied with this filter
+    paths-ignore: #if files in the specified path changes. Workflow will not be initiated
+      - '.github/workflows/*'
+    #paths: #if the filesi nthe specified path changes, it triggers a workflow
+    #  - '.github/workflows/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
